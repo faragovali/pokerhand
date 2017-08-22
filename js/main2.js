@@ -34,18 +34,18 @@ deck.sort(function (card1, card2) {
 
 var hand = deck.slice(0, 5);
 
-var sortedhand = hand.sort(function (a, b) {
-    return a.numbers.value > b.numbers.value ? 1 : -1;
-});
+// var sortedhand = hand.sort(function (a, b) {
+//     return a.numbers.value > b.numbers.value ? 1 : -1;
+// });
 
 
-// var sortedhand = [
-//     {index: 8, suit: 'D', numbers: {key: '3', value: 3}},
-//     {index: 65, suit: 'C', numbers: {key: '7', value: 7}},
-//     {index: 49, suit: 'S', numbers: {key: '7', value: 7}},
-//     {index: 72, suit: 'H', numbers: {key: '7', value: 7}},
-//     {index: 33, suit: 'D', numbers: {key: '9', value: 9}}
-// ];
+var sortedhand = [
+    {index: 8, suit: 'C', numbers: {key: '3', value: 3}},
+    {index: 65, suit: 'H', numbers: {key: '4', value: 4}},
+    {index: 72, suit: 'C', numbers: {key: '4', value: 4}},
+    {index: 33, suit: 'D', numbers: {key: '4', value: 4}},
+    {index: 49, suit: 'H', numbers: {key: '5', value: 5}}
+];
 
 //show sorted hand
 var pokerhand = [];
@@ -55,7 +55,6 @@ for (var a = 0; a < sortedhand.length; a++) {
 }
 
 document.getElementById("cards").innerHTML = pokerhand;
-
 
 //Függvények
 function isRoyalFlush() {
@@ -69,18 +68,12 @@ function isStraightFlush() {
 }
 
 function isFourOfAKind() {
-    for (var f = 0; f < sortedhand.length - 1; f++) {
-        if (sortedhand[0].numbers.value === sortedhand[3].numbers.value || sortedhand[1].numbers.value === sortedhand[4].numbers.value) {
-            return true;
-        }
-    }
-    return false;
+        return sortedhand[0].numbers.value === sortedhand[3].numbers.value || sortedhand[1].numbers.value === sortedhand[4].numbers.value;
 }
 
 function isFullHouse() {
-   return isPair() && isThreeOfAKind();
+        return isPair() && isThreeOfAKind();
 }
-// itt tudom, hogy az a hiba, hogy ha van drill, van pár is, ezért drillt, nem ír ki, ellenben full-t igen :D
 
 function isFlush() {
     var suit = sortedhand[0].suit;
@@ -105,10 +98,17 @@ function isStraight() {
 //set??
 
 function isThreeOfAKind() {
+    var count= 0;
     for (var d = 0; d < sortedhand.length - 2; d++) {
-        if (sortedhand[d].numbers.value === sortedhand[d + 2].numbers.value) {
-            return true;
+        if (isPair() && sortedhand[d].numbers.value === sortedhand[d + 2].numbers.value ) {
+            count +=1;
+            console.log("drill", count);
+            if (count === 1 && !isPair()) {
+                return true;
+            }
+
         }
+
     }
     return false;
 }
@@ -116,7 +116,7 @@ function isThreeOfAKind() {
 function isTwoPair() {
     var count = 0;
     for (var t = 0; t < sortedhand.length - 1; t++) {
-        if (sortedhand[t].numbers.value === sortedhand[t + 1].numbers.value) {
+        if (isPair()) {
            count += 1;
            console.log(count);
            if (count === 2) {

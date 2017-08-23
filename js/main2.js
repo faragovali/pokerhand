@@ -40,11 +40,11 @@ var hand = deck.slice(0, 5);
 
 
 var sortedhand = [
-    {index: 8, suit: 'C', numbers: {key: '3', value: 3}},
-    {index: 65, suit: 'H', numbers: {key: '4', value: 4}},
+    {index: 8, suit: 'C', numbers: {key: '2', value: 2}},
+    {index: 65, suit: 'H', numbers: {key: '3', value: 3}},
     {index: 72, suit: 'C', numbers: {key: '4', value: 4}},
     {index: 33, suit: 'D', numbers: {key: '4', value: 4}},
-    {index: 49, suit: 'H', numbers: {key: '5', value: 5}}
+    {index: 49, suit: 'H', numbers: {key: '4', value: 4}}
 ];
 
 //show sorted hand
@@ -72,7 +72,8 @@ function isFourOfAKind() {
 }
 
 function isFullHouse() {
-    return isPair() && isThreeOfAKind();
+    return (sortedhand[0].numbers.value === sortedhand[1].numbers.value && sortedhand[2].numbers.value === sortedhand[4].numbers.value) ||
+        (sortedhand[0].numbers.value === sortedhand[2].numbers.value && sortedhand[3].numbers.value === sortedhand[4].numbers.value);
 }
 
 function isFlush() {
@@ -96,7 +97,9 @@ function isStraight() {
 }
 
 function isThreeOfAKind() {
-    return sortedhand[0].numbers.value === sortedhand[2].numbers.value || sortedhand[1].numbers.value === sortedhand[3].numbers.value && !isPair() || sortedhand[2].numbers.value === sortedhand[4].numbers.value;
+    return  sortedhand[0].numbers.value === sortedhand[2].numbers.value ||
+            sortedhand[1].numbers.value === sortedhand[3].numbers.value ||
+            sortedhand[2].numbers.value === sortedhand[4].numbers.value;
 }
 
 function isTwoPair() {
@@ -114,12 +117,14 @@ function isTwoPair() {
 }
 
 function isPair() {
+    var count = 0;
     for (var p = 0; p < sortedhand.length - 1; p++) {
         if (sortedhand[p].numbers.value === sortedhand[p + 1].numbers.value) {
-            return true;
+            count++;
         }
     }
-    return false;
+    return count === 1;
+
 }
 
 if (isRoyalFlush()) {

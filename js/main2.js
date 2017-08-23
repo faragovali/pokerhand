@@ -68,11 +68,11 @@ function isStraightFlush() {
 }
 
 function isFourOfAKind() {
-        return sortedhand[0].numbers.value === sortedhand[3].numbers.value || sortedhand[1].numbers.value === sortedhand[4].numbers.value;
+    return sortedhand[0].numbers.value === sortedhand[3].numbers.value || sortedhand[1].numbers.value === sortedhand[4].numbers.value;
 }
 
 function isFullHouse() {
-        return isPair() && isThreeOfAKind();
+    return isPair() && isThreeOfAKind();
 }
 
 function isFlush() {
@@ -95,33 +95,19 @@ function isStraight() {
     return true;
 }
 
-//set??
-
 function isThreeOfAKind() {
-    var count= 0;
-    for (var d = 0; d < sortedhand.length - 2; d++) {
-        if (isPair() && sortedhand[d].numbers.value === sortedhand[d + 2].numbers.value ) {
-            count +=1;
-            console.log("drill", count);
-            if (count === 1 && !isPair()) {
-                return true;
-            }
-
-        }
-
-    }
-    return false;
+    return sortedhand[0].numbers.value === sortedhand[2].numbers.value || sortedhand[1].numbers.value === sortedhand[3].numbers.value && !isPair() || sortedhand[2].numbers.value === sortedhand[4].numbers.value;
 }
 
 function isTwoPair() {
     var count = 0;
     for (var t = 0; t < sortedhand.length - 1; t++) {
-        if (isPair()) {
-           count += 1;
-           console.log(count);
-           if (count === 2) {
-               return true;
-           }
+        if (isPair() && !isThreeOfAKind()) {
+            count += 1;
+            console.log(count);
+            if (count === 2) {
+                return true;
+            }
         }
     }
     return false;

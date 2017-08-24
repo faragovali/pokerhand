@@ -34,24 +34,23 @@ deck.sort(function (card1, card2) {
 
 var hand = deck.slice(0, 5);
 
-// var sortedhand = hand.sort(function (a, b) {
-//     return a.numbers.value > b.numbers.value ? 1 : -1;
-// });
+var sortedhand = hand.sort(function (a, b) {
+    return a.numbers.value > b.numbers.value ? 1 : -1
+});
 
-
-var sortedhand = [
-    {index: 8, suit: 'C', numbers: {key: '2', value: 2}},
-    {index: 65, suit: 'H', numbers: {key: '3', value: 3}},
-    {index: 72, suit: 'C', numbers: {key: '4', value: 4}},
-    {index: 33, suit: 'D', numbers: {key: '4', value: 4}},
-    {index: 49, suit: 'H', numbers: {key: '4', value: 4}}
-];
+// var sortedhand = [
+//     {index: 8, suit: 'C', numbers: {key: '2', value: 2}},
+//     {index: 65, suit: 'C', numbers: {key: '3', value: 3}},
+//     {index: 72, suit: 'C', numbers: {key: '4', value: 4}},
+//     {index: 33, suit: 'C', numbers: {key: '5', value: 5}},
+//     {index: 49, suit: 'C', numbers: {key: 'A', value: 14}}
+// ];
 
 //show sorted hand
 var pokerhand = [];
 
 for (var a = 0; a < sortedhand.length; a++) {
-    pokerhand.push(sortedhand[a].suit + sortedhand[a].numbers.key)
+    pokerhand.push(sortedhand[a].suit + sortedhand[a].numbers.key);
 }
 
 document.getElementById("cards").innerHTML = pokerhand;
@@ -97,34 +96,19 @@ function isStraight() {
 }
 
 function isThreeOfAKind() {
-    return  sortedhand[0].numbers.value === sortedhand[2].numbers.value ||
-            sortedhand[1].numbers.value === sortedhand[3].numbers.value ||
-            sortedhand[2].numbers.value === sortedhand[4].numbers.value;
+    return sortedhand[0].numbers.value === sortedhand[2].numbers.value ||
+        sortedhand[1].numbers.value === sortedhand[3].numbers.value ||
+        sortedhand[2].numbers.value === sortedhand[4].numbers.value;
 }
 
-function isTwoPair() {
-    var count = 0;
-    for (var t = 0; t < sortedhand.length - 1; t++) {
-        if (isPair() && !isThreeOfAKind()) {
-            count += 1;
-            console.log(count);
-            if (count === 2) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-function isPair() {
+function countPairs() {
     var count = 0;
     for (var p = 0; p < sortedhand.length - 1; p++) {
         if (sortedhand[p].numbers.value === sortedhand[p + 1].numbers.value) {
             count++;
         }
     }
-    return count === 1;
-
+    return count;
 }
 
 if (isRoyalFlush()) {
@@ -141,10 +125,10 @@ if (isRoyalFlush()) {
     document.getElementById("result").innerHTML = " Yay, Straight";
 } else if (isThreeOfAKind()) {
     document.getElementById("result").innerHTML = " Yay, Three of a Kind";
-} else if (isTwoPair()) {
-    document.getElementById("result").innerHTML = " Yay, Two Pair";
-} else if (isPair()) {
+} else if (countPairs() === 1) {
     document.getElementById("result").innerHTML = " Yay, One Pair";
+} else if (countPairs() === 2) {
+    document.getElementById("result").innerHTML = " Yay, Two Pair";
 } else {
     document.getElementById("result").innerHTML = " Buuu, High Card";
 }
